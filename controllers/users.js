@@ -1,7 +1,6 @@
 const { response, request } = require('express');
 const bcryptjs = require('bcryptjs');
 const User = require('../models/User');
-const { emailExists } = require('../helpers/db-validators');
 
 const userGet = async (req = request, res = response) => {
 	const { limit = 5, from = 0 } = req.query;
@@ -45,9 +44,10 @@ const userPut = async (req, res = response) => {
 
 const userDelete = async (req, res = response) => {
 	const { id } = req.params;
+
 	const user = await User.findByIdAndUpdate(id, { status: false });
 
-	res.json(user);
+	res.json({ user });
 };
 
 module.exports = { userGet, userPost, userPut, userDelete };
